@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurante Maria Lucia - Reservas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .logo p {
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .contact-info {
+            text-align: right;
+        }
+
+        .contact-info p {
+            margin: 5px 0;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #654321;
+            padding: 1rem 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav li {
+            margin: 0 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #8B4513;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23D2691E" width="1200" height="600"/><circle fill="%23F4A460" cx="200" cy="150" r="50"/><circle fill="%23CD853F" cx="800" cy="200" r="60"/><circle fill="%23DEB887" cx="1000" cy="400" r="40"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+
+        /* Main Content */
+        main {
+            padding: 50px 0;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #8B4513;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            text-align: center;
+            border-bottom: 3px solid #D2691E;
+            padding-bottom: 10px;
+        }
+
+        /* Reservation Form */
+        .reservation-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #654321;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #D2691E;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            width: 100%;
+            transition: transform 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Menu Preview */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .menu-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #D2691E;
+        }
+
+        .menu-item h3 {
+            color: #8B4513;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            color: #D2691E;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Info Cards */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            border-top: 5px solid #D2691E;
+        }
+
+        .info-card h3 {
+            color: #8B4513;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #654321;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                text-align: center;
+            }
+
+            .contact-info {
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav li {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Maria Lucia</h1>
+                    <p>Restaurante & Gastronomia</p>
+                </div>
+                <div class="contact-info">
+                    <p>📞 (62) 9968-6754</p>
+                    <p>📧 marialucia@gmail.com.br</p>
+                    <p>📍 Pedregal-Novo Gama Goias</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#home">Início</a></li>
+                <li><a href="#reservas">Reservas</a></li>
+                <li><a href="#cardapio">Cardápio</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h2>Bem-vindos ao Maria Lucia</h2>
+            <p>Uma experiência gastronômica única com sabores tradicionais e ambiente acolhedor</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Reservation Section -->
+        <section class="section" id="reservas">
+            <h2>Faça sua Reserva</h2>
+            <form class="reservation-form" onsubmit="submitReservation(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nome">Nome Completo *</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefone">Telefone *</label>
+                        <input type="tel" id="telefone" name="telefone" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="data">Data da Reserva *</label>
+                        <input type="date" id="data" name="data" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="horario">Horário *</label>
+                        <select id="horario" name="horario" required>
+                            <option value="">Selecione o horário</option>
+                            <option value="18:00">18:00</option>
+                            <option value="18:30">18:30</option>
+                            <option value="19:00">19:00</option>
+                            <option value="19:30">19:30</option>
+                            <option value="20:00">20:00</option>
+                            <option value="20:30">20:30</option>
+                            <option value="21:00">21:00</option>
+                            <option value="21:30">21:30</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pessoas">Número de Pessoas *</label>
+                        <select id="pessoas" name="pessoas" required>
+                            <option value="">Selecione</option>
+                            <option value="1">1 pessoa</option>
+                            <option value="2">2 pessoas</option>
+                            <option value="3">3 pessoas</option>
+                            <option value="4">4 pessoas</option>
+                            <option value="5">5 pessoas</option>
+                            <option value="6">6 pessoas</option>
+                            <option value="7">7 pessoas</option>
+                            <option value="8">8 pessoas</option>
+                            <option value="mais">Mais de 8 pessoas</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ocasiao">Ocasião Especial</label>
+                        <select id="ocasiao" name="ocasiao">
+                            <option value="">Selecione (opcional)</option>
+                            <option value="aniversario">Aniversário</option>
+                            <option value="casamento">Casamento</option>
+                            <option value="formatura">Formatura</option>
+                            <option value="negocio">Jantar de Negócios</option>
+                            <option value="romantico">Jantar Romântico</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="observacoes">Observações Especiais</label>
+                    <textarea id="observacoes" name="observacoes" rows="4" placeholder="Alergias alimentares, preferências de mesa, etc."></textarea>
+                </div>
+
+                <button type="submit" class="btn">Confirmar Reserva</button>
+            </form>
+        </section>
+
+        <!-- Menu Preview -->
+        <section class="section" id="cardapio">
+            <h2>Nosso Cardápio</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <h3>Entradas</h3>
+                    <p>Isca de tilapia</p>
+                    <p class="price">R$ 22,00</p>
+                </div>
+                <div class="menu-item">
+                    <h3>Pratos Principais</h3>
+                    <p>Costela Boniva com Mandioca</p>
+                    <p class="price">R$ 30,00</p>
+                </div>
+                <div class="menu-item">
+                    <h3>Massas</h3>
+                    <p>Lasanha da Maria Lucia</p>
+                    <p class="price">R$ 45,00</p>
+                </div>
+                <div class="menu-item">
+                    <h3>Sobremesas</h3>
+                    <p>Pave</p>
+                    <p class="price">R$ 22,00</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section" id="sobre">
+            <h2>Sobre o Maria Lucia</h2>
+            <div class="info-cards">
+                <div class="info-card">
+                    <h3>Nossa História</h3>
+                    <p>Há mais de 20 anos servindo pratos tradicionais com ingredientes frescos e receitas de família.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Ambiente</h3>
+                    <p>Um espaço aconchegante e elegante, perfeito para momentos especiais com família e amigos.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Horário de Funcionamento</h3>
+                    <p>Terça a Domingo<br>18:00 às 23:00<br>Segundas fechado</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contato">
+        <div class="container">
+            <p>© 2025 Restaurante Maria Lucia. Todos os direitos reservados.</p>
+            <p>Pedregal-Novo Gama,Go (61) 9968-6754</p>
+        </div>
+    </footer>
+
+    <script>
+        // Set minimum date to today
+        document.getElementById('data').min = new Date().toISOString().split('T')[0];
+
+        function submitReservation(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            
+            // Simple validation
+            if (!data.nome || !data.telefone || !data.email || !data.data || !data.horario || !data.pessoas) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
+            // Simulate reservation confirmation
+            alert(`Reserva confirmada!\n\nNome: ${data.nome}\nData: ${data.data}\nHorário: ${data.horario}\nPessoas: ${data.pessoas}\n\nEntraremos em contato em breve para confirmar os detalhes.`);
+            
+            // Reset form
+            event.target.reset();
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
